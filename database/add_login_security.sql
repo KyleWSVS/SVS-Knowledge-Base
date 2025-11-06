@@ -1,0 +1,67 @@
+-- Login Security Migration
+-- This SQL file enables PIN hashing and tracks failed login attempts for brute force protection
+-- Run this script in phpMyAdmin to add the required security columns
+
+-- Step 1: Add security columns to users table
+ALTER TABLE `users` ADD COLUMN IF NOT EXISTS `failed_attempts` INT DEFAULT 0;
+ALTER TABLE `users` ADD COLUMN IF NOT EXISTS `locked_until` DATETIME NULL;
+
+-- ============================================================================
+-- IMPORTANT: After running this SQL, follow these steps:
+-- ============================================================================
+--
+-- OPTION A: Hash Existing PINs (Recommended - Preserves existing PINs)
+-- 1. Access: database/migrate_login_security.php in your browser
+-- 2. This will hash all existing plaintext PINs using bcrypt
+-- 3. You only need to run this ONCE
+--
+-- OPTION B: Reset All PINs Manually
+-- 1. Go to User Management page
+-- 2. Click "Reset PIN" for each user
+-- 3. Enter a new 4-digit PIN (it will be hashed automatically)
+--
+-- OPTION C: Run Migration via Command Line (if available)
+-- 1. SSH into your server
+-- 2. Run: php database/migrate_login_security.php
+--
+-- ============================================================================
+-- What these columns do:
+-- ============================================================================
+--
+-- failed_attempts INT DEFAULT 0
+--   - Tracks number of consecutive failed login attempts
+--   - Increments on each failed login
+--   - Resets to 0 on successful login
+--
+-- locked_until DATETIME NULL
+--   - Set to a future datetime when account is locked
+--   - Account is locked when failed_attempts >= 10
+--   - Lockout duration: 2 minutes (120 seconds)
+--   - Automatically cleared on successful login
+--
+-- ============================================================================
+-- Security Features Enabled:
+-- ============================================================================
+--
+-- 1. PIN Hashing
+--    - PINs are hashed using bcrypt before storage
+--    - Plaintext PINs are never stored
+--    - Login uses password_verify() for secure checking
+--
+-- 2. Failed Login Tracking
+--    - System tracks failed attempts per user
+--    - Increments on each invalid PIN attempt
+--
+-- 3. Brute Force Protection (10 Attempts = 2 Minute Lockout)
+--    - After 10 failed attempts, account automatically locks
+--    - Locked accounts show: "Account locked... try again in X minute(s)"
+--    - 2-minute cooldown protects against automated PIN guessing
+--    - Lockout is cleared after 2 minutes
+--
+-- 4. Secure PIN Reset
+--    - Admins can reset PINs from User Management page
+--    - New PINs are automatically hashed
+--    - Failed attempts counter is reset to 0
+--    - Lockout is cleared if any
+--
+-- ============================================================================
