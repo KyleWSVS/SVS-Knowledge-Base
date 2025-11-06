@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Indentation Test</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Additional test styles */
+        .test-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-title {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body style="background: #f0f4f8;">
+    <div class="test-container">
+        <h2 class="test-title">List Indentation Test</h2>
+
+        <h3>Test 1: Simple Bullet List</h3>
+        <div class="post-content">
+            <ul>
+                <li>First level item 1</li>
+                <li>First level item 2</li>
+                <li>First level item 3</li>
+            </ul>
+        </div>
+
+        <h3>Test 2: Nested Bullet List (What TinyMCE Should Generate)</h3>
+        <div class="post-content">
+            <ul>
+                <li>Main item 1
+                    <ul>
+                        <li>Sub item 1.1
+                            <ul>
+                                <li>Sub-sub item 1.1.1</li>
+                                <li>Sub-sub item 1.1.2</li>
+                            </ul>
+                        </li>
+                        <li>Sub item 1.2</li>
+                    </ul>
+                </li>
+                <li>Main item 2</li>
+                <li>Main item 3
+                    <ul>
+                        <li>Sub item 3.1</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <h3>Test 3: Nested Numbered List</h3>
+        <div class="post-content">
+            <ol>
+                <li>First main point
+                    <ol>
+                        <li>First subpoint
+                            <ol>
+                                <li>First sub-subpoint</li>
+                                <li>Second sub-subpoint</li>
+                            </ol>
+                        </li>
+                        <li>Second subpoint</li>
+                    </ol>
+                </li>
+                <li>Second main point</li>
+            </ol>
+        </div>
+
+        <h3>Test 4: Mixed List Types</h3>
+        <div class="post-content">
+            <ul>
+                <li>Bullet point 1</li>
+                <li>Bullet point 2
+                    <ol>
+                        <li>Numbered subpoint 1</li>
+                        <li>Numbered subpoint 2</li>
+                    </ol>
+                </li>
+                <li>Bullet point 3</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
